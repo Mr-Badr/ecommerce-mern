@@ -1,12 +1,13 @@
 {
   "name": "ecommerce",
   "version": "1.0.0",
-  "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js",
+    "server": "nodemon index.js"
   },
-  "author": "",
+  "author": "Badr Eddine",
   "license": "ISC",
   "dependencies": {
     "bcrypt": "^5.1.0",
@@ -14,5 +15,17 @@
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
     "mongoose": "^6.8.3"
-  }
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.20"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Mr-Badr/ecommerce-mern.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Mr-Badr/ecommerce-mern/issues"
+  },
+  "homepage": "https://github.com/Mr-Badr/ecommerce-mern#readme",
+  "description": "Ecommerce website"
 }
