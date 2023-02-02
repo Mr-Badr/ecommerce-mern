@@ -33,22 +33,22 @@ const loginUserCtrl = asyncHandler(async (req, res) => {
   if (findUser && (await findUser.isPasswordMatched(password))) {
     res.json({
       _id: findUser?._id,
-      _filename: findUser?._filename,
-      _lastname: findUser?._lastname,
-      _email: findUser?._email,
-      _mobile: findUser?._mobile,
+      _firstname: findUser?.firstname,
+      _lastname: findUser?.lastname,
+      _email: findUser?.email,
+      _mobile: findUser?.mobile,
       token: generateToken(findUser?._id),
     });
   } else {
-    throw new Error("Invalid credentials: " + password);
+    throw new Error("Invalid credentials!");
   }
 });
 
 // Update a user
 const updateaUser = asyncHandler(async (req, res) => {
-  const { id } = req.params;
+  const { _id } = req.user;
   try {
-    const updatedUser = await User.findByIdAndUpdate(id, {
+    const updatedUser = await User.findByIdAndUpdate( _id , {
       firstname: req?.body?.firstname,
       lastname: req?.body?.lastname,
       email: req?.body?.email,
@@ -94,11 +94,16 @@ const deleteaUser = asyncHandler(async (req, res) => {
   }
 });
 
+const blockUser = asyncHandler(async (req, res) => {})
+const unblockUser = asyncHandler(async (req, res) => {})
+
 module.exports = {
   createUser,
   loginUserCtrl,
   getallUsers,
   getaUser,
   deleteaUser,
-  updateaUser
+  updateaUser,
+  blockUser,
+  unblockUser
 };

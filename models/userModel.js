@@ -29,6 +29,18 @@ var userSchema = new mongoose.Schema({
     type: String,
     default: "user",
   },
+  isBlocked: {
+    type: Boolean,
+    default: false,
+  },
+  cart: {
+    type: Array,
+    default: [],
+  },
+  address: [{type: mongoose.Schema.Types.ObjectId, ref: 'Address'}],
+  wishlist: [{type: mongoose.Schema.Types.ObjectId, ref: 'Product'}],
+} , {
+  timestamps: true,
 });
 
 // Bcrypt the password
