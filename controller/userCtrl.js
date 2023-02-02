@@ -2,7 +2,9 @@ const User = require("../models/userModel");
 const asyncHandler = require("express-async-handler");
 const { generateToken } = require("../config/jwtToken");
 const validateMongoDbId = require("../utils/validateMongodbId");
+const { generateRefreshToken } = require("../config/refreshtoken");
 
+// Create a user
 const createUser = asyncHandler(async (req, res) => {
   // First we have to check if the user already exists
   const email = req.body.email;
@@ -32,6 +34,20 @@ const loginUserCtrl = asyncHandler(async (req, res) => {
   // check if user already exists && we send the second argument to userModel file to check the password
   const findUser = await User.findOne({ email });
   if (findUser && (await findUser.isPasswordMatched(password))) {
+    const refreshToken = await generateRefreshToken(findUser?._id);
+    const updateuser = await User.findOneAndUpdate(
+      findUser.id,
+      {
+        refreshToken: refreshToken,
+      },
+      {
+        new: true,
+      }
+    );
+    res.cookie('refreshToken', refreshToken, {
+      httpOnly: true,  // An HttpOnly Cookie is a tag added to a browser cookie that prevents client-side scripts from accessing data. 
+      maxAge: 72 * 60 * 60 * 1000,
+    });
     res.json({
       _id: findUser?._id,
       _firstname: findUser?.firstname,
