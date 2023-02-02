@@ -3,6 +3,7 @@ const asyncHandler = require("express-async-handler");
 const { generateToken } = require("../config/jwtToken");
 const validateMongoDbId = require("../utils/validateMongodbId");
 const { generateRefreshToken } = require("../config/refreshtoken");
+const jwt = require("jsonwebtoken");
 
 // Create a user
 const createUser = asyncHandler(async (req, res) => {
@@ -44,8 +45,8 @@ const loginUserCtrl = asyncHandler(async (req, res) => {
         new: true,
       }
     );
-    res.cookie('refreshToken', refreshToken, {
-      httpOnly: true,  // An HttpOnly Cookie is a tag added to a browser cookie that prevents client-side scripts from accessing data. 
+    res.cookie("refreshToken", refreshToken, {
+      httpOnly: true, // An HttpOnly Cookie is a tag added to a browser cookie that prevents client-side scripts from accessing data.
       maxAge: 72 * 60 * 60 * 1000,
     });
     res.json({
@@ -59,6 +60,31 @@ const loginUserCtrl = asyncHandler(async (req, res) => {
   } else {
     throw new Error("Invalid credentials!");
   }
+});
+
+// Handel refresh token
+const handleRefreshToken = asyncHandler(async (req, res) => {
+  const cookie = req.cookies;
+  if (!cookie?.refreshToken) {
+    throw new Error("No Refresh Token in Cookies");
+  }
+  const refreshToken = cookie.refreshToken;
+  // Now we need to find the user wuth the help of this Refresh Token which we are getting from the cookie
+  const user = await User.findOne({ refreshToken });
+  if (!user) {
+    throw new Error("No Refresh token present in db or not matching!");
+  }
+  // if we found in db and in cookies, then we need to verify that token
+  jwt.verify(refreshToken, process.env.JWT_SECRET, (err, decoded) => {
+    if (err || user.id !== decoded.id) {
+      throw new Error("There is something wrong with the refresh token");
+    }
+    // We need to provide the new access token
+    const accessToken = generateToken(user?._id);
+    res.json({
+      accessToken,
+    });
+  });
 });
 
 // Update a user
@@ -170,4 +196,5 @@ module.exports = {
   updateaUser,
   blockUser,
   unblockUser,
+  handleRefreshToken,
 };
