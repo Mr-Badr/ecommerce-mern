@@ -3,11 +3,17 @@ const {
   createProduct,
   getaProduct,
   getAllProduct,
+  updateProduct,
+  deleteProduct,
 } = require("../controller/productCtrl");
+const { isAdmin, authMiddleware } = require("../middlewares/authMiddleware");
 const router = express.Router();
 
-router.post("/", createProduct);
-router.get("/:id", getaProduct);
+// Only Admin can create, delete and update products
+router.post("/", authMiddleware, isAdmin, createProduct);
+router.get("/:id", authMiddleware, isAdmin, getaProduct);
+router.put("/:id", updateProduct);
+router.delete("/:id", authMiddleware, isAdmin, deleteProduct);
 router.get("/", getAllProduct);
 
 module.exports = router;

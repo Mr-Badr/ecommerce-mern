@@ -8,8 +8,12 @@ const PORT = process.env.PORT || 4000; // if port is not specified, we will use 
 const authRouter = require("./routes/authRoute");
 const productRouter = require("./routes/productRoute");
 const cookieParser = require("cookie-parser");
+const morgan = require("morgan");
 
 dbConnect();
+
+// it helps to get what requeste we are making, and what queries we are passing in the terminal
+app.use(morgan("dev"));
 
 // use body parser To handle HTTP POST requests in Express.js
 app.use(bodyParser.json());
