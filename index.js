@@ -12,6 +12,7 @@ const cookieParser = require("cookie-parser");
 const morgan = require("morgan");
 const categoryRouter = require("./routes/prodcategoryRoute");
 const blogcategoryRouter = require("./routes/blogCatRoute");
+const brandRouter = require("./routes/brandRoute");
 
 dbConnect();
 
@@ -32,6 +33,7 @@ app.use("/api/product", productRouter);
 app.use("/api/blog", blogRouter);
 app.use("/api/category", categoryRouter);
 app.use("/api/blogcategory", blogcategoryRouter);
+app.use("/api/brand", brandRouter);
 
 // This middleware should be after all Routes
 app.use(notFound);
