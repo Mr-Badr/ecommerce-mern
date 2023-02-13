@@ -46,9 +46,7 @@ var productSchema = new mongoose.Schema(
       // to hide sold from user
       // select: false,
     },
-    images: {
-      type: Array,
-    },
+    images: [],
     color: {
       type: String,
       //enum: ["Black", "Brown", "Red"], // The enum validator is an array that will check if the value given is an item in the array
