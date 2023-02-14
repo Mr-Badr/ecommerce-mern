@@ -15,6 +15,7 @@ const {
   resetPassword,
   loginAdmin,
   getWishlist,
+  saveAddress,
 } = require("../controller/userCtrl");
 const { authMiddleware, isAdmin } = require("../middlewares/authMiddleware");
 const router = express.Router();
@@ -33,6 +34,7 @@ router.get("/logout", logout);
 router.get("/:id", authMiddleware, isAdmin, getaUser);
 router.delete("/:id", deleteaUser);
 router.put("/edit-user", authMiddleware, updateaUser);
+router.put("/save-address", authMiddleware, saveAddress);
 
 // Only Admin can Block users
 router.put("/block-user/:id", authMiddleware, isAdmin, blockUser);
