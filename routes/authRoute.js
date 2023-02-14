@@ -13,6 +13,7 @@ const {
   updatePassword,
   forgotpasswordToken,
   resetPassword,
+  loginAdmin,
 } = require("../controller/userCtrl");
 const { authMiddleware, isAdmin } = require("../middlewares/authMiddleware");
 const router = express.Router();
@@ -23,6 +24,7 @@ router.put("/reset-password/:token", resetPassword);
 // we pass authMiddleware because from it we get req.user, and from req.user we get the _id which we use in updatePassword
 router.put("/password", authMiddleware, updatePassword);
 router.post("/login", loginUserCtrl);
+router.post("/admin-login", loginAdmin);
 router.get("/all-users", getallUsers);
 router.get("/refresh", handleRefreshToken);
 router.get("/logout", logout);

@@ -31,7 +31,7 @@ const createUser = asyncHandler(async (req, res) => {
   }
 });
 
-// Create login controller
+// Login a user
 const loginUserCtrl = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
   // check if user already exists && we send the second argument to userModel file to check the password
@@ -58,6 +58,40 @@ const loginUserCtrl = asyncHandler(async (req, res) => {
       _email: findUser?.email,
       _mobile: findUser?.mobile,
       token: generateToken(findUser?._id),
+    });
+  } else {
+    throw new Error("Invalid credentials!");
+  }
+});
+
+// Admin Login
+const loginAdmin = asyncHandler(async (req, res) => {
+  const { email, password } = req.body;
+  // check if user already exists && we send the second argument to userModel file to check the password
+  const findAdmin = await User.findOne({ email });
+  if (findAdmin.role !== "admin") throw new Error("Not authorized");
+  if (findAdmin && (await findAdmin.isPasswordMatched(password))) {
+    const refreshToken = await generateRefreshToken(findAdmin?._id);
+    const updateuser = await User.findOneAndUpdate(
+      findAdmin.id,
+      {
+        refreshToken: refreshToken,
+      },
+      {
+        new: true,
+      }
+    );
+    res.cookie("refreshToken", refreshToken, {
+      httpOnly: true, // An HttpOnly Cookie is a tag added to a browser cookie that prevents client-side scripts from accessing data.
+      maxAge: 72 * 60 * 60 * 1000,
+    });
+    res.json({
+      _id: findAdmin?._id,
+      _firstname: findAdmin?.firstname,
+      _lastname: findAdmin?.lastname,
+      _email: findAdmin?.email,
+      _mobile: findAdmin?.mobile,
+      token: generateToken(findAdmin?._id),
     });
   } else {
     throw new Error("Invalid credentials!");
@@ -283,4 +317,5 @@ module.exports = {
   updatePassword,
   forgotpasswordToken,
   resetPassword,
+  loginAdmin,
 };
