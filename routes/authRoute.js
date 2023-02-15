@@ -22,6 +22,7 @@ const {
   applyCoupon,
   createOrder,
   getOrders,
+  updateOrderStatus,
 } = require("../controller/userCtrl");
 const { authMiddleware, isAdmin } = require("../middlewares/authMiddleware");
 const router = express.Router();
@@ -29,6 +30,12 @@ const router = express.Router();
 router.post("/register", createUser);
 router.post("/forgot-password-token", forgotpasswordToken);
 router.put("/reset-password/:token", resetPassword);
+router.put(
+  "/order/update-order/:id",
+  authMiddleware,
+  isAdmin,
+  updateOrderStatus
+);
 // we pass authMiddleware because from it we get req.user, and from req.user we get the _id which we use in updatePassword
 router.put("/password", authMiddleware, updatePassword);
 router.post("/login", loginUserCtrl);
