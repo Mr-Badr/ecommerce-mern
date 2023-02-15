@@ -47,11 +47,8 @@ var productSchema = new mongoose.Schema(
       // select: false,
     },
     images: [],
-    color: {
-      type: String,
-      //enum: ["Black", "Brown", "Red"], // The enum validator is an array that will check if the value given is an item in the array
-      required: true,
-    },
+    color: [],
+    tags: [],
     ratings: [
       {
         star: Number,

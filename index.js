@@ -13,6 +13,7 @@ const morgan = require("morgan");
 const categoryRouter = require("./routes/prodcategoryRoute");
 const blogcategoryRouter = require("./routes/blogCatRoute");
 const brandRouter = require("./routes/brandRoute");
+const colorRouter = require("./routes/colorRoute");
 const couponRouter = require("./routes/couponRoute");
 
 dbConnect();
@@ -36,6 +37,7 @@ app.use("/api/category", categoryRouter);
 app.use("/api/blogcategory", blogcategoryRouter);
 app.use("/api/brand", brandRouter);
 app.use("/api/coupon", couponRouter);
+app.use("/api/color", colorRouter);
 
 // This middleware should be after all Routes
 app.use(notFound);
