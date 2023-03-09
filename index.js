@@ -16,11 +16,14 @@ const brandRouter = require("./routes/brandRoute");
 const colorRouter = require("./routes/colorRoute");
 const couponRouter = require("./routes/couponRoute");
 const enqRouter = require("./routes/enqRoute");
+const cors = require("cors");
 
 dbConnect();
 
 // it helps to get what requeste we are making, and what queries we are passing in the terminal
 app.use(morgan("dev"));
+
+app.use(cors());
 
 // use body parser To handle HTTP POST requests in Express.js
 app.use(bodyParser.json());
