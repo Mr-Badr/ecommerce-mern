@@ -24,5 +24,6 @@ router.put("/:id", updateProduct);
 router.delete("/:id", authMiddleware, isAdmin, deleteProduct);
 router.delete("/delete-img/:id", authMiddleware, isAdmin, deleteImages); //FIXME: i have to be in uploadRoute.js, Not Here.
 
+router.get("/", getAllProduct);
 
 module.exports = router;
