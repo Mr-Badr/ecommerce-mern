@@ -1,7 +1,6 @@
 const nodemailer = require("nodemailer");
 const asyncHandler = require("express-async-handler");
 
-// With the help of 'data' parameter we will fetch our dynamic data, and it should be before 'req'
 const sendEmail = asyncHandler(async (data, req, res) => {
   let transporter = nodemailer.createTransport({
     host: "smtp.gmail.com",
@@ -9,7 +8,7 @@ const sendEmail = asyncHandler(async (data, req, res) => {
     secure: false, // true for 465, false for other ports
     auth: {
       user: process.env.MAIL_ID, // generated ethereal user
-      pass: process.env.MP, // generated ethereal password from this website : https://myaccount.google.com/apppasswords?pli=1&rapt=AEjHL4N0sZkS69KlKj47PSz7ODjNphzBQXxaT1ntTuMl2Ackw8qb8qs7nH1yjfRuVNPTIMrlThANfUTjBbCCjQvZWOWlPx2YrQ
+      pass: process.env.MP, // generated ethereal password
     },
   });
 

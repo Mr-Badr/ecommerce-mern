@@ -6,10 +6,9 @@ var productSchema = new mongoose.Schema(
     title: {
       type: String,
       required: true,
-      trim: true, // To ensure the strings you save through the schema are properly trimmed
+      trim: true,
     },
     slug: {
-      // unique identifier
       type: String,
       required: true,
       unique: true,
@@ -24,16 +23,11 @@ var productSchema = new mongoose.Schema(
       required: true,
     },
     category: {
-      // With the help of this it we will store the category
-      // we will convert type into a string so we can put it manually
-      //type: mongoose.Schema.Types.ObjectId,
-      //ref: "Category",
       type: String,
       required: true,
     },
     brand: {
       type: String,
-      //enum: ["Apple", "Samsung", "Lenovo"],
       required: true,
     },
     quantity: {
@@ -43,20 +37,22 @@ var productSchema = new mongoose.Schema(
     sold: {
       type: Number,
       default: 0,
-      // to hide sold from user
-      // select: false,
     },
-    images: [],
-    color: [],
-    tags: [],
+    images: [
+      {
+        public_id: String,
+        url: String,
+      },
+    ],
+    color: [{
+      type:mongoose.Schema.Types.ObjectId, ref:"Color" }
+    ],
+    tags: String,
     ratings: [
       {
         star: Number,
         comment: String,
-        postedby: {
-          type: mongoose.Schema.Types.ObjectId,
-          ref: "User",
-        },
+        postedby: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
       },
     ],
     totalrating: {
@@ -64,9 +60,7 @@ var productSchema = new mongoose.Schema(
       default: 0,
     },
   },
-  {
-    timestamps: true,
-  }
+  { timestamps: true }
 );
 
 //Export the model

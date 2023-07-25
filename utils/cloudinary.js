@@ -1,14 +1,15 @@
-const cloudinary = require("cloudinary");
-// Configuration
-cloudinary.config({
-  cloud_name: process.env.CLOUD_NAME,
-  api_key: process.env.API_KEY,
-  api_secret: process.env.SECRET_KEY,
+// Require the Cloudinary library
+const cloudinary = require('cloudinary');
+
+cloudinary.config({ 
+  cloud_name: 'dkmaawt0x', 
+  api_key: '899863268477445', 
+  api_secret: process.env.SECRET_KEY
 });
 
-const cloudinaryUploadImg = async (fileToUpload) => {
+const cloudinaryUploadImg = async (fileToUploads) => {
   return new Promise((resolve) => {
-    cloudinary.uploader.upload(fileToUpload, (result) => {
+    cloudinary.uploader.upload(fileToUploads, (result) => {
       resolve(
         {
           url: result.secure_url,
@@ -22,7 +23,6 @@ const cloudinaryUploadImg = async (fileToUpload) => {
     });
   });
 };
-
 const cloudinaryDeleteImg = async (fileToDelete) => {
   return new Promise((resolve) => {
     cloudinary.uploader.destroy(fileToDelete, (result) => {

@@ -1,29 +1,22 @@
 const express = require("express");
 const {
   createProduct,
-  getaProduct,
+  getProduct,
   getAllProduct,
   updateProduct,
   deleteProduct,
-  addToWishList,
+  addToWishlist,
   rating,
 } = require("../controller/productCtrl");
 const { isAdmin, authMiddleware } = require("../middlewares/authMiddleware");
-const { deleteImages } = require("../controller/uploadCtrl");
-
 const router = express.Router();
 
-// Only Admin can create, delete and update products
 router.post("/", authMiddleware, isAdmin, createProduct);
 
-router.get("/:id", authMiddleware, isAdmin, getaProduct);
+router.get("/:id", getProduct);
+router.put("/wishlist", authMiddleware, addToWishlist);
 router.put("/rating", authMiddleware, rating);
-router.put("/wishlist", authMiddleware, addToWishList);
-router.put("/:id", updateProduct);
-
+router.put("/:id", authMiddleware, isAdmin, updateProduct);
 router.delete("/:id", authMiddleware, isAdmin, deleteProduct);
-router.delete("/delete-img/:id", authMiddleware, isAdmin, deleteImages); //FIXME: i have to be in uploadRoute.js, Not Here.
-
 router.get("/", getAllProduct);
-
 module.exports = router;

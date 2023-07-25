@@ -8,9 +8,9 @@ const {
 const { authMiddleware, isAdmin } = require("../middlewares/authMiddleware");
 const router = express.Router();
 
-// Only Admin can create and see the coupons
 router.post("/", authMiddleware, isAdmin, createCoupon);
 router.get("/", authMiddleware, isAdmin, getAllCoupons);
+router.get("/:id", authMiddleware, isAdmin, getAllCoupons);
 router.put("/:id", authMiddleware, isAdmin, updateCoupon);
 router.delete("/:id", authMiddleware, isAdmin, deleteCoupon);
 
